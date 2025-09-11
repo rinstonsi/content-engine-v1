@@ -41,6 +41,17 @@ export const config = {
     origin: process.env.CORS_ORIGIN || '*',
     credentials: process.env.CORS_CREDENTIALS === 'true',
   },
+
+  // External providers
+  providers: {
+    multisport: {
+      baseUrl:
+        process.env.MULTISPORT_BASE_URL || 'https://www.thesportsmandi.com/',
+      clientId: process.env.MULTISPORT_CLIENT_ID || '',
+      defaultTz: process.env.MULTISPORT_DEFAULT_TZ || '0000',
+      timeoutMs: Number(process.env.MULTISPORT_TIMEOUT_MS || 10000),
+    },
+  },
 };
 
 /**
@@ -55,7 +66,9 @@ export function validateConfig() {
   }
 
   if (!Object.values(ENVIRONMENTS).includes(config.server.environment)) {
-    errors.push(`NODE_ENV must be one of: ${Object.values(ENVIRONMENTS).join(', ')}`);
+    errors.push(
+      `NODE_ENV must be one of: ${Object.values(ENVIRONMENTS).join(', ')}`
+    );
   }
 
   return {

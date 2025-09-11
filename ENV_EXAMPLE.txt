@@ -1,0 +1,11 @@
+# Server
+PORT=3000
+NODE_ENV=development
+
+# Multisport Provider
+MULTISPORT_BASE_URL=https://www.thesportsmandi.com/
+MULTISPORT_CLIENT_ID=
+MULTISPORT_DEFAULT_TZ=0530
+MULTISPORT_TIMEOUT_MS=10000
+
+
