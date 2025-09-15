@@ -1,0 +1,34 @@
+meta {
+  name: multisport
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/content-engine/v1/page-data
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "data_source_id": "si-multisport",
+    "content_type": "fixtures",
+    "params": {
+      "sport": 21,
+      "league": 0,
+      "timezone": "0530",
+      "language": "",
+      "gamestate": 4,
+      "client_id": "9646e616d6"
+    }
+  }
+}
+
+settings {
+  encodeUrl: false
+}

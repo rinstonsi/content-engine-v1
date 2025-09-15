@@ -9,6 +9,8 @@ import { InMemoryUserRepository } from '../../outbound/repositories/InMemoryUser
 import { UserController } from '../rest/UserController.js';
 import { config } from '../../../shared/config/index.js';
 import { MultisportProvider } from '../../outbound/external-services/multisport/MultisportProvider.js';
+import { PageDataController } from '../rest/PageDataController.js';
+import { GetFixtures } from '../../../application/use-cases/GetFixtures.js';
 
 dotenv.config();
 
@@ -37,6 +39,8 @@ export async function buildServer() {
     defaultTz: config.providers.multisport.defaultTz,
     timeoutMs: config.providers.multisport.timeoutMs,
   });
+  const fixtureService = new GetFixtures(multisportProvider as any) as any;
+  const pageDataController = new PageDataController({ fixtureService });
 
   // Express-like response shim for existing controllers
   function toExpressLikeRes(reply: any) {
@@ -70,6 +74,11 @@ export async function buildServer() {
     environment: NODE_ENV,
   }));
 
+  // Page-data route (Fastify)
+  app.post('/content-engine/v1/page-data', async (request, reply) => {
+    return pageDataController.postPageData(request as any, toExpressLikeRes(reply));
+  });
+  
   // Root
   app.get('/', async () => ({
     message: 'Hexagonal Architecture Node.js API (Fastify)',
@@ -96,7 +105,7 @@ export async function buildServer() {
 
 if (NODE_ENV !== 'test') {
   buildServer()
-    .then((app) => app.listen({ port: PORT, host: '0.0.0.0' }))
+    .then((app) => app.listen({ port: PORT, host: '::' }))
     .then((address) => {
       console.log(`🚀 Fastify server listening at ${address}`);
       console.log(`🔗 Health: http://localhost:${PORT}/health`);

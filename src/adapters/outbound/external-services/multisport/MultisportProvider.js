@@ -48,10 +48,19 @@ export class MultisportProvider extends SportsDataProvider {
     const id = setTimeout(() => controller.abort(), this.timeoutMs);
     let res;
     try {
-      res = await fetch(url.toString(), { signal: controller.signal });
+      const headers = {
+        'user-agent': 'content-engine/1.0 (+https://localhost)',
+        accept: 'application/json, text/plain;q=0.9, */*;q=0.8',
+      };
+      res = await fetch(url.toString(), { signal: controller.signal, headers });
     } catch (err) {
       clearTimeout(id);
-      console.error('[Multisport] Network error:', err?.message);
+      console.error(
+        '[Multisport] Network error:',
+        err?.code,
+        err?.message,
+        err?.cause
+      );
       throw new Error(`Multisport network error: ${err?.message || 'unknown'}`);
     }
     clearTimeout(id);
