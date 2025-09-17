@@ -14,8 +14,9 @@ export class MultisportProvider extends SportsDataProvider {
       sport,
       league = 0,
       timezone,
-      language = '',
-      gamestate = 4,
+      language = 'en',
+      gamestate,
+      tournament,
     } = params;
 
     const url = new URL('default.aspx', this.baseUrl);
@@ -38,7 +39,8 @@ export class MultisportProvider extends SportsDataProvider {
         league: String(league),
         timezone: String(timezone || this.defaultTz),
         language,
-        gamestate: String(gamestate),
+        ...(gamestate !== undefined ? { gamestate: String(gamestate) } : {}),
+        ...(tournament !== undefined ? { tournament: String(tournament) } : {}),
         timeoutMs: this.timeoutMs,
         clientId: maskedClient,
       });
@@ -59,7 +61,7 @@ export class MultisportProvider extends SportsDataProvider {
         '[Multisport] Network error:',
         err?.code,
         err?.message,
-        err?.cause
+        err?.cause,
       );
       throw new Error(`Multisport network error: ${err?.message || 'unknown'}`);
     }
@@ -68,7 +70,7 @@ export class MultisportProvider extends SportsDataProvider {
     console.log('[Multisport] Response status:', res.status, res.statusText);
     console.log(
       '[Multisport] Content-Type:',
-      res.headers?.get?.('content-type')
+      res.headers?.get?.('content-type'),
     );
 
     const rawText = await res.text();

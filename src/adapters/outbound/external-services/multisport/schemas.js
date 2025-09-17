@@ -8,8 +8,9 @@ export const pageDataRequestSchema = z.object({
     sport: z.union([z.number(), z.string()]),
     league: z.union([z.number(), z.string()]).optional(),
     timezone: z.string().regex(/^-?\d{3,4}$/),
-    language: z.string().optional().default(''),
+    language: z.string().optional().default('en'),
     gamestate: z.union([z.number(), z.string()]).optional(),
+    tournament: z.union([z.number(), z.string()]).optional(),
     client_id: z.string().min(1).optional(),
   }),
 });

@@ -46,7 +46,7 @@ export const config = {
   providers: {
     multisport: {
       baseUrl:
-        process.env.MULTISPORT_BASE_URL || 'https://www.thesportsmandi.com/',
+        process.env.MULTISPORT_BASE_URL || 'https://www.rajasthanroyals.com/',
       clientId: process.env.MULTISPORT_CLIENT_ID || '',
       defaultTz: process.env.MULTISPORT_DEFAULT_TZ || '0000',
       timeoutMs: Number(process.env.MULTISPORT_TIMEOUT_MS || 10000),
@@ -67,7 +67,7 @@ export function validateConfig() {
 
   if (!Object.values(ENVIRONMENTS).includes(config.server.environment)) {
     errors.push(
-      `NODE_ENV must be one of: ${Object.values(ENVIRONMENTS).join(', ')}`
+      `NODE_ENV must be one of: ${Object.values(ENVIRONMENTS).join(', ')}`,
     );
   }
 
